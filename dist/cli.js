@@ -1,28 +1,17 @@
 #!/usr/bin/env node
 import chalk from "chalk";
+import { askSetup } from "./core/prompts.js";
+import { installDeps } from "./core/install.js";
+import { generateEnv } from "./core/env.js";
+import { injectAuthConfig } from "./core/injectConfig.js";
 import { copyTemplate } from "./utils/copyTemplate.js";
-import fs from "fs";
-const args = process.argv.slice(2);
-const command = args[0];
-function validateProject() {
-    if (!fs.existsSync("package.json")) {
-        console.log(chalk.red("❌ Not inside a project"));
-        process.exit(1);
-    }
-}
-async function init() {
-    console.log(chalk.cyan("⚡ Setting up Auth Starter...\n"));
-    validateProject();
+async function run() {
+    console.log(chalk.cyan("\nAuth Starter Setup\n"));
+    const answers = await askSetup();
     await copyTemplate();
-    console.log(chalk.green("✅ Templates copied"));
+    await installDeps();
+    generateEnv();
+    injectAuthConfig(answers);
+    console.log(chalk.green("\nSetup Complete 🚀\n"));
 }
-if (command === "init") {
-    init();
-}
-else {
-    console.log(`
-Usage:
-
-auth-starter init
-`);
-}
+run();
