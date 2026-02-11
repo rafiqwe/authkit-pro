@@ -1,0 +1,21 @@
+tsup.config.ts
+.gitignore
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Logs and cache
+*.log
+node_modules/
+.turbo/
+coverage/
+
+# Environment files
+.env*
+
+# TypeScript cache
+*.tsbuildinfo
