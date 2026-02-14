@@ -1,14 +1,15 @@
 import { ProviderModule } from "../../types/provider.js";
 
-export const GoogleProvider: ProviderModule = {
-  name: "google",
+export const GoogleProvider: ProviderModule = (options) => {
+  return {
+    name: "google",
 
-  getImport() {
-    return `import Google from "next-auth/providers/google";`;
-  },
+    getImport() {
+      return `import Google from "next-auth/providers/google";`;
+    },
 
-  getConfig() {
-    return `
+    getConfig() {
+      return `
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -21,13 +22,14 @@ export const GoogleProvider: ProviderModule = {
         },
       },
     })`;
-  },
+    },
 
-  getEnv() {
-    return ["GOOGLE_CLIENT_ID=", "GOOGLE_CLIENT_SECRET="];
-  },
+    getEnv() {
+      return ["GOOGLE_CLIENT_ID=", "GOOGLE_CLIENT_SECRET="];
+    },
 
-  getDependencies() {
-    return [];
-  },
+    getDependencies() {
+      return [];
+    },
+  };
 };
