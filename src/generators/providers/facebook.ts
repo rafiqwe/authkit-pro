@@ -1,14 +1,15 @@
 import { ProviderModule } from "../../types/provider.js";
 
-export const FacebookProvider: ProviderModule = {
-  name: "facebook",
+export const FacebookProvider: ProviderModule = (options) => {
+  return {
+    name: "facebook",
 
-  getImport() {
-    return `import Facebook from "next-auth/providers/facebook";`;
-  },
+    getImport() {
+      return `import Facebook from "next-auth/providers/facebook";`;
+    },
 
-  getConfig() {
-    return `
+    getConfig() {
+      return `
     Facebook({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
@@ -21,13 +22,14 @@ export const FacebookProvider: ProviderModule = {
         },
       },
     })`;
-  },
+    },
 
-  getEnv() {
-    return ["FACEBOOK_CLIENT_ID=", "FACEBOOK_CLIENT_SECRET="];
-  },
+    getEnv() {
+      return ["FACEBOOK_CLIENT_ID=", "FACEBOOK_CLIENT_SECRET="];
+    },
 
-  getDependencies() {
-    return [];
-  },
+    getDependencies() {
+      return [];
+    },
+  };
 };
