@@ -1,14 +1,15 @@
 import { ProviderModule } from "../../types/provider.js";
 
-export const GitHubProvider: ProviderModule = {
-  name: "github",
+export const GitHubProvider: ProviderModule = (options) => {
+  return {
+    name: "github",
 
-  getImport() {
-    return `import GitHub from "next-auth/providers/github";`;
-  },
+    getImport() {
+      return `import GitHub from "next-auth/providers/github";`;
+    },
 
-  getConfig() {
-    return `
+    getConfig() {
+      return `
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
@@ -21,13 +22,14 @@ export const GitHubProvider: ProviderModule = {
         },
       },
     })`;
-  },
+    },
 
-  getEnv() {
-    return ["GITHUB_CLIENT_ID=", "GITHUB_CLIENT_SECRET="];
-  },
+    getEnv() {
+      return ["GITHUB_CLIENT_ID=", "GITHUB_CLIENT_SECRET="];
+    },
 
-  getDependencies() {
-    return [];
-  },
+    getDependencies() {
+      return [];
+    },
+  };
 };
