@@ -1,5 +1,5 @@
 export function credentialsForm() {
-    const credentialContent = `
+  const credentialContent = `
 import React from "react";
 const Credentials = () => {
   return (
@@ -29,5 +29,5 @@ const Credentials = () => {
 export default Credentials;
 
     `;
-    return credentialContent;
-  }
+  return credentialContent;
+}
