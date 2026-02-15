@@ -10,8 +10,7 @@ import { signOutButton } from "./signOutButton.js";
 export function generateUI(targetDir: string, providers: Provider[]) {
   if (providers.includes("credentials")) {
     write(targetDir, "components/auth/CredentialsForm.tsx", credentialsForm());
-  }else{
-    
+  } else {
   }
   write(targetDir, "app/login/page.tsx", loginPage(providers));
   write(
