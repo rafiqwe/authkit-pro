@@ -37,14 +37,14 @@ export function providerButtons(providers: Provider[]) {
       return `
       <button
         key="${p.name}"
-        disabled={isLoading}
+        disabled={!!loadingProvider}
         onClick={() => handleSignIn("${p.name}")}
         className="w-full mb-2 px-4 py-2.5 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] bg-white rounded-xl 
         text-gray-800 font-medium flex items-center justify-center gap-3 
         hover:bg-gray-50 active:scale-[0.98] transition-all duration-200 
         disabled:opacity-70 disabled:cursor-not-allowed shadow-sm cursor-pointer"
       >
-        {isLoading ? (
+        {loadingProvider === "${p.name}"  ? (
           <RiLoader2Line className="w-5 h-5 animate-spin text-gray-500" />
         ) : (
           <>
@@ -66,15 +66,15 @@ import { RiLoader2Line } from "react-icons/ri";
 ${iconImports}
 
 export function ProviderButtons() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 
   const handleSignIn = async (provider: string) => {
-    setIsLoading(true);
+    setLoadingProvider(provider);
     try {
       await signIn(provider, { callbackUrl: "/" });
     } catch (error) {
       console.error("Login failed:", error);
-      setIsLoading(false);
+      setLoadingProvider(null);
     }
   };
 
