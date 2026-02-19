@@ -1,14 +1,19 @@
-import { Provider } from "../../types/config.js";
+import { Engine, Provider } from "../../types/config.js";
 
-export function loginPage(providers: Provider[]) {
+export function loginPage(providers: Provider[], engine: Engine) {
   const OAuth = `
 import { ProviderButtons } from "@/components/auth/ProviderButtons";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+${
+  engine === "nextauth"
+    ? "import { getServerSession } from 'next-auth';\nimport { authOptions } from '@/lib/auth';"
+    : "import { auth } from '@/lib/auth';"
+}
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-  const session = await getServerSession(authOptions);
+  const session = await ${
+    engine === "nextauth" ? "getServerSession(authOptions);" : "auth();"
+  };
   const bgImageUrl =
     "https://img.freepik.com/free-vector/beautiful-white-cloud-blue-sky-background_1035-23406.jpg";
 
