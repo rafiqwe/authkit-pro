@@ -4,11 +4,12 @@ import { GitHubProvider } from "./github.js";
 import { FacebookProvider } from "./facebook.js";
 import { Provider, Database } from "../../types/config.js";
 import { CredentialsProvider } from "./credential.js";
+
 const registry: Record<Provider, ProviderModule> = {
-  google: (options?: any) => GoogleProvider(options),
-  github: (options?: any) => GitHubProvider(options),
-  facebook: (options?: any) => FacebookProvider(options),
-  credentials: (options?: any) => CredentialsProvider(options),
+  google: (options?: Database) => GoogleProvider(options),
+  github: (options?: Database) => GitHubProvider(options),
+  facebook: (options?: Database) => FacebookProvider(options),
+  credentials: (options?: Database) => CredentialsProvider(options),
 };
 
 export function loadProviders(selected: Provider[], options?: Database) {
