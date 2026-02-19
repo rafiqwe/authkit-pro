@@ -14,6 +14,7 @@ const SAFE_USER_FIELDS = [
 
 export const CredentialsProvider: ProviderModule = (options) => {
   const database = options;
+
   const dbImport =
     database === "mongodb"
       ? `import User from "@/models/User"; //! Create a User model in @/models/User.ts`
