@@ -3,7 +3,7 @@ import { loadProviders } from "../generators/providers/index.js";
 import { injectDynamicRoute } from "./injectDynamicRoute.js";
 import { write } from "../utils/write.js";
 
-export function injectAuthConfig(ans: AuthCLIConfig, db: Database) {
+export function injectAuthConfig(ans: AuthCLIConfig) {
   const adapter =
     ans.database === "postgres"
       ? "adapter: PrismaAdapter(prisma),"
@@ -23,7 +23,7 @@ export function injectAuthConfig(ans: AuthCLIConfig, db: Database) {
     ? ""
     : 'import { prisma } from "@/lib/prisma";';
 
-  const providers = loadProviders(ans.providers, db);
+  const providers = loadProviders(ans.providers, ans.database);
 
   const file = `
 import NextAuth from "next-auth";
@@ -43,6 +43,7 @@ export const authOptions: NextAuthOptions = {
 
 export default NextAuth(authOptions);
 `;
+
   write(process.cwd(), "lib/auth.ts", file);
-  injectDynamicRoute();
+  injectDynamicRoute({ engine: ans.engine });
 }
