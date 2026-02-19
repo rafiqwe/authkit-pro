@@ -40,7 +40,7 @@ async function main() {
   }
 
   // if middleware is selected then inject middleware
-  if (config.middleware) {
+  if (config.middleware && config.engine !== "authjs") {
     injectMiddleware();
   }
 
@@ -52,7 +52,7 @@ async function main() {
   ]);
 
   if (config.ui) {
-    generateUI(targetDir, config.providers);
+    generateUI(targetDir, config);
   }
 
   const deps = loadProviders(config.providers).flatMap((p) =>
