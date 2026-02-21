@@ -1,13 +1,15 @@
 import { execa } from "execa";
 import chalk from "chalk";
-import { Engine } from "../types/config.js";
+import { Database, Engine } from "../types/config.js";
 
 export async function installDeps({
   deps,
   engine,
+  db,
 }: {
   deps: string[];
   engine: Engine;
+  db: Database;
 }) {
   if (engine === "nextauth") {
     const devDeps = ["next-auth", ...deps];
@@ -26,7 +28,12 @@ export async function installDeps({
       stdio: "inherit",
     });
   }
-  await execa("npm", ["install", "--save-dev", "@types/bcrypt"]);
+  await execa("npm", [
+    "install",
+    "--save-dev",
+    "@types/bcrypt",
+    `${db === "postgres" && "pg@types/pg"}`,
+  ]);
 
   console.log(chalk.green.bold("\n✅ Dependencies installed successfully!\n"));
 }
