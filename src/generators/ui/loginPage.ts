@@ -1,96 +1,126 @@
 import { Engine, Provider } from "../../types/config.js";
 
 export function loginPage(providers: Provider[], engine: Engine) {
+  const imports =
+    engine === "nextauth"
+      ? "import { getServerSession } from 'next-auth';\nimport { authOptions } from '@/lib/auth';"
+      : "import { auth } from '@/lib/auth';";
+
   const OAuth = `
 import { ProviderButtons } from "@/components/auth/ProviderButtons";
-${
-  engine === "nextauth"
-    ? "import { getServerSession } from 'next-auth';\nimport { authOptions } from '@/lib/auth';"
-    : "import { auth } from '@/lib/auth';"
-}
-import { redirect } from "next/navigation";
+${imports}
+
+export const dynamic = "force-dynamic";
 
 export default async function LoginPage() {
-  const session = await ${
-    engine === "nextauth" ? "getServerSession(authOptions);" : "auth();"
-  };
-  const bgImageUrl =
-    "https://img.freepik.com/free-vector/beautiful-white-cloud-blue-sky-background_1035-23406.jpg";
+    const session = await ${
+      engine === "nextauth" ? "getServerSession(authOptions);" : "auth();"
+    };
 
   if (session) redirect("/");
 
+  const bgImageUrl =
+    "https://img.freepik.com/free-vector/beautiful-white-cloud-blue-sky-background_1035-23406.jpg";
+
   return (
     <div
-      className={\`flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat\`}
-      style={{ backgroundImage: \`url('\${bgImageUrl}')\` }}
+      className="relative flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: \`url('\${bgImageUrl}\')\` }}
     >
-      {/* Added backdrop-blur and semi-transparent bg for a "Glass" effect */}
-      <div className="p-10 border  border-white/20 rounded-2xl shadow-2xl bg-white/70 backdrop-blur-md w-full max-w-md mx-4 bg-gradient-to-t to-cyan-200 from-gray-50">
-        <div className="text-center space-y-2 mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            Authkit-pro
-          </h1>
-          <p className="text-sm text-gray-700">
-            Sign in to your account to continue
+      {/* Soft dark overlay for better contrast */}
+      <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-md mx-4">
+        <div className="p-10 rounded-2xl shadow-2xl bg-white/80 backdrop-blur-xl border border-white/30">
+          {/* Branding */}
+          <div className="text-center space-y-3 mb-8">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Authkit Pro
+            </h1>
+            <p className="text-sm text-gray-600">
+              Secure authentication starter for modern apps
+            </p>
+          </div>
+
+          {/* Providers */}
+          <ProviderButtons />
+
+          {/* Footer */}
+          <p className="mt-8 text-center text-xs text-gray-500">
+            By signing in, you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>
-        <ProviderButtons />
-        <p className="mt-6 text-center text-xs text-gray-800">
-          By signing in, you agree to our Terms of Service.
-        </p>
       </div>
     </div>
   );
 }
-
     `;
+
   const Credential = `
 import { ProviderButtons } from "@/components/auth/ProviderButtons";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+${imports}
 import { redirect } from "next/navigation";
 import CredentialsForm from "@/components/auth/CredentialsForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function LoginPage() {
-  const session = await getServerSession(authOptions);
-  const bgImageUrl =
-    "https://img.freepik.com/free-vector/beautiful-white-cloud-blue-sky-background_1035-23406.jpg";
+  const session = await ${
+    engine === "nextauth" ? "getServerSession(authOptions)" : "auth()"
+  };
 
   if (session) redirect("/");
 
+  const bgImageUrl =
+    "https://img.freepik.com/free-vector/beautiful-white-cloud-blue-sky-background_1035-23406.jpg";
+
   return (
     <div
-      className={\`flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat\`}
+      className="relative flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: \`url('\${bgImageUrl}')\` }}
     >
-      {/* Added backdrop-blur and semi-transparent bg for a "Glass" effect */}
-      <div className="p-10 border  border-white/20 rounded-2xl shadow-2xl bg-white/70 backdrop-blur-md w-full max-w-md mx-4 bg-gradient-to-t to-cyan-200 from-gray-50">
-        <div className="text-center space-y-2 mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            Authkit-pro
-          </h1>
-          <p className="text-sm text-gray-700">
-            Sign in to your account to continue
+      {/* Background Overlay */}
+      <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+
+      <div className="relative z-10 w-full max-w-md mx-4">
+        <div className="p-10 rounded-2xl shadow-2xl bg-white/80 backdrop-blur-xl border border-white/30">
+
+          {/* Header */}
+          <div className="text-center space-y-3 mb-8">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Authkit Pro
+            </h1>
+            <p className="text-sm text-gray-600">
+              Secure authentication starter for modern applications
+            </p>
+          </div>
+
+          {/* Credentials Form */}
+          <CredentialsForm />
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400 uppercase tracking-wide">
+              Or continue with
+            </span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
+          {/* OAuth Providers */}
+          <ProviderButtons />
+
+          {/* Footer */}
+          <p className="mt-8 text-center text-xs text-gray-500">
+            By signing in, you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>
-        <CredentialsForm />
-        <div className="flex items-center justify-center gap-2 w-full mt-2">
-          <div className="w-full h-px bg-gray-400"></div>
-          <p className="text-gray-400 whitespace-nowrap">or sign with</p>
-          <div className="w-full h-px bg-gray-400"></div>
-        </div>
-        <div className="mt-2 w-full h-full">
-          <ProviderButtons />
-        </div>
-        <p className="mt-6 text-center text-xs text-gray-800">
-          By signing in, you agree to our Terms of Service.
-        </p>
       </div>
     </div>
   );
 }
-
-    `;
+`;
 
   if (providers.includes("credentials")) {
     return Credential;
