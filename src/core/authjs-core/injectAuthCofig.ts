@@ -40,6 +40,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     `;
 
+  const proxy = `
+export { auth as proxy } from "@/lib/auth"`;
+
   write(process.cwd(), "lib/auth.ts", file);
+  write(process.cwd(), "proxy.ts", proxy);
   injectDynamicRoute({ engine: ans.engine });
 };
