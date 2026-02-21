@@ -15,12 +15,13 @@ export async function runSetup(): Promise<AuthCLIConfig> {
       // { value: "betterauth", label: "Better Auth" },
     ],
   });
-  
+
   const providers = await multiselect({
     message: "Select authentication providers",
     options: [
       { value: "google", label: "Google Provider" },
       { value: "github", label: "GitHub Provider" },
+      { value: "facebook", label: "Facebook Provider" },
       { value: "credentials", label: "Credentials Provider" },
     ],
     required: true,
