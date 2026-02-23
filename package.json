@@ -1,6 +1,6 @@
 {
   "name": "authkit-pro",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "AuthKit Pro is a production-focused authentication starter toolkit for Next.js App Router that dramatically reduces setup time for authentication systems.",
   "main": "index.js",
   "repository": {
