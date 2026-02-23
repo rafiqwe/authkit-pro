@@ -10,7 +10,9 @@ export function ProfilePage(engine: Engine) {
   import Image from "next/image";
   ${imports}
   import { redirect } from "next/navigation";
+  import { SignOutButton } from "@/components/auth/SignOutButton";
   export const dynamic = "force-dynamic";
+  
 
 export default async function ProfilePage() {
   const session = await ${
@@ -30,19 +32,7 @@ export default async function ProfilePage() {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             Profile
           </h1>
-          <form
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            <button
-              type="submit"
-              className="bg-red-500 cursor-pointer hover:bg-red-600 transition-colors text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md"
-            >
-              Logout
-            </button>
-          </form>
+          <SignOutButton />
         </div>
         {/* Profile Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-8">
