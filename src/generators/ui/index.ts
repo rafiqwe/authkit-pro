@@ -6,6 +6,7 @@ import { providerButtons } from "./providerButtons.js";
 import { sessionHelper } from "./sessionHelper.js";
 import { userProfile } from "./userProfile.js";
 import { signOutButton } from "./signOutButton.js";
+import { ProfilePage } from "./profilePage.js";
 
 interface UIConfig {
   providers: Provider[];
@@ -22,12 +23,13 @@ export function generateUI(targetDir: string, config: UIConfig) {
     "app/login/page.tsx",
     loginPage(config.providers, config.engine),
   );
+  write(targetDir, 'app/profile/page.tsx', ProfilePage(config.engine))
   write(
     targetDir,
     "components/auth/ProviderButtons.tsx",
     providerButtons(config.providers),
   );
-  write(targetDir, "components/auth/SignOutButton.tsx", signOutButton());
+  write(targetDir, "components/auth/SignOutButton.tsx", signOutButton(config.engine));
   write(targetDir, "components/auth/UserProfile.tsx", userProfile());
-  write(targetDir, "lib/session.ts", sessionHelper());
+  write(targetDir, "lib/session.ts", sessionHelper(config.engine));
 }
